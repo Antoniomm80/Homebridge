@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-reverse-proxy-config
+  namespace: myapps
+data:
+  nginx.conf: |
+    events {}
+
+    http {
+        server {
+            listen 80;
+
+            location /homebridge {
+                proxy_pass http://homebridge:8581/;
+            }
+            location / {
+                proxy_pass http://homebridge:8581/;
+            }            
+        }
+    }

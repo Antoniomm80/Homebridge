@@ -1,0 +1,1 @@
+sudo bash -c "echo 'black-pearl.local:/opt/clusterstorage/homebridge /mnt/homebridge/  nfs      defaults    0       0' >> /etc/fstab"

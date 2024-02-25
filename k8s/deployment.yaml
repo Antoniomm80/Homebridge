@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homebridge
+  namespace: myapps
+  labels:
+    app: homebridge
+spec:
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homebridge
+  template:
+    metadata:
+      labels:
+        app: homebridge
+    spec:
+      hostNetwork: true
+      containers:
+        - name: homebridge
+          image: homebridge/homebridge
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: homebridge-data
+              mountPath: /homebridge
+          resources:
+            requests:
+              cpu: 1500m
+              memory: 1.5Gi
+            limits:
+              memory: 1.5Gi
+          ports:
+            - containerPort: 51493
+              name: homebridge
+              protocol: TCP
+            - containerPort: 8581
+              name: homebridge-2
+              protocol: TCP
+      volumes:
+        - name: homebridge-data
+          persistentVolumeClaim:
+            claimName: homebridge-pvc
